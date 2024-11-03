@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CourseProject.BLL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,10 +10,9 @@ namespace CourseProject.BLL.Interfaces
 {
     public interface IIndicatorService
     {
-        Task CreateIndicator(Indicator model);
-        Task<List<Indicator>> GetIndicators();
+        Task<Guid> CreateIndicator(IndicatorModel model);
+        Task<List<IndicatorModel>> GetIndicators();
         Task DeleteIndicator(Guid id);
-        Task UpdateIndicatorValue(Indicator model);
-
+        Task UpdateIndicatorValue(UpdateIndicatorValueModel model);
     }
 }
