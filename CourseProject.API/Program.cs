@@ -1,3 +1,4 @@
+using CourseProject.API.Controllers;
 using CourseProject.BLL.Interfaces;
 using CourseProject.BLL.Services;
 using CourseProject.Core.Constants;
@@ -13,6 +14,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddSignalR();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowAll",
+                      policy =>
+                      {
+                          policy.WithOrigins("http://127.0.0.1:5500");
+                          policy.AllowAnyHeader();
+                          policy.AllowAnyMethod();
+                          policy.AllowCredentials();
+                      });
+
+});
+
 builder.Services.Configure<DbOptions>(
     builder.Configuration.GetSection(
         OptionsConstants.DbOptionsKey));
@@ -25,7 +42,6 @@ builder.Services.AddDbContext<CourseProjectDbContext>((provider, ctx) =>
 
 builder.Services.AddScoped<IIndicatorService, IndicatorService>();
 
-builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -35,9 +51,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.MapHub<IndicatorHub>("/indicator");
 
 app.MapControllers();
 
