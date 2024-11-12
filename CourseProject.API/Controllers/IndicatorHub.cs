@@ -20,7 +20,7 @@ namespace CourseProject.API.Controllers
                 Value = value
             });
 
-            await this.Clients.Others.SendAsync("Recieve", id, value);
+            await this.Clients.Others.SendAsync("receive", id, value);
         }
     }
 }

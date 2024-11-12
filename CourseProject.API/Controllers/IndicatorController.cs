@@ -38,7 +38,7 @@ namespace CourseProject.API.Controllers
         public async Task<ActionResult> UpdateIndicatorValue(UpdateIndicatorValueModel model)
         {
             await _service.UpdateIndicatorValue(model);
-            await _hubContext.Clients.All.SendAsync("Recieve", model.Id.ToString(), model.Value);
+            await _hubContext.Clients.All.SendAsync("receive", model.Id.ToString(), model.Value);
 
             return NoContent();
         }
