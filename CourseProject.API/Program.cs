@@ -41,7 +41,7 @@ builder.Services.AddDbContext<CourseProjectDbContext>((provider, ctx) =>
 });
 
 builder.Services.AddScoped<IIndicatorService, IndicatorService>();
-
+builder.Services.AddScoped<IBackgroundImageService, BackgroundImageService>();
 
 var app = builder.Build();
 
