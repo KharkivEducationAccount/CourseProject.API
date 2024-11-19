@@ -75,14 +75,22 @@ namespace CourseProject.BLL.Services
 
         public async Task UpdateIndicatorValue(UpdateIndicatorValueModel model)
         {
-            var indicator = await context.Indicators.FirstOrDefaultAsync(x => x.Id == model.Id);
+            var indicator = await context.Indicators
+                .Include(i => i.IndicatorValues)
+                .FirstOrDefaultAsync(x => x.Id == model.Id);
 
             if (indicator is null)
             {
-                return;
+                throw new Exception("Indicator null exception");
             }
 
-            indicator.Value = model.Value;
+            var indicatorValue = new IndicatorValue()
+            {
+                Value = model.Value,
+                DateTime = DateTime.Now
+            };
+
+            indicator.IndicatorValues.Add(indicatorValue);
 
             await context.SaveChangesAsync();
         }
